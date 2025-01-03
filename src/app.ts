@@ -1,13 +1,13 @@
 import { notFound, onError } from "stoker/middlewares";
 import { defaultHook } from "stoker/openapi";
+
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
 
+import loggerMiddleware from "./middlewares/logger.middleware.js";
 import router from "./router.js";
 
 import type { AppBindings } from "./types.js";
-import loggerMiddleware from "./middlewares/logger.middleware.js";
-
 const app = new OpenAPIHono<AppBindings>({
   defaultHook,
 });

@@ -1,5 +1,6 @@
-import logger from "@/helpers/logger";
 import { pinoLogger } from "hono-pino";
+
+import logger from "@/helpers/logger";
 
 export default function () {
   return pinoLogger({

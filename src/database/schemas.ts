@@ -1,5 +1,5 @@
-import { categoriesTable } from "@/api/categories/categories.schema";
+import { categories } from "@/api/categories/categories.schema";
 
 export default {
-  categoriesTable,
+  categories,
 } as const;
