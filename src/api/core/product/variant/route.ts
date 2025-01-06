@@ -2,18 +2,18 @@ import { jsonContent } from "stoker/openapi/helpers";
 
 import { createRoute, z } from "@hono/zod-openapi";
 
-export type Create = typeof FolderRoute.create;
-export type Find = typeof FolderRoute.find;
-export type FindOne = typeof FolderRoute.findOne;
-export type Update = typeof FolderRoute.update;
-export type Remove = typeof FolderRoute.remove;
+export type Create = typeof ProductVariantRoute.create;
+export type Find = typeof ProductVariantRoute.find;
+export type FindOne = typeof ProductVariantRoute.findOne;
+export type Update = typeof ProductVariantRoute.update;
+export type Remove = typeof ProductVariantRoute.remove;
 
-export default abstract class FolderRoute {
-  private static tags = ["Folder"];
+export default abstract class ProductVariantRoute {
+  private static tags = ["ProductVariant"];
 
   public static create = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders",
+    tags: ProductVariantRoute.tags,
+    path: "/products/{productId}/variants",
     method: "post",
     request: {},
     responses: {
@@ -25,8 +25,8 @@ export default abstract class FolderRoute {
   });
 
   public static find = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders",
+    tags: ProductVariantRoute.tags,
+    path: "/products/{productId}/variants",
     method: "get",
     request: {},
     responses: {
@@ -38,8 +38,8 @@ export default abstract class FolderRoute {
   });
 
   public static findOne = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders/{folderId}",
+    tags: ProductVariantRoute.tags,
+    path: "/products/{productId}/variants/{variantId}",
     method: "get",
     request: {},
     responses: {
@@ -51,8 +51,8 @@ export default abstract class FolderRoute {
   });
 
   public static update = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders/{folderId}",
+    tags: ProductVariantRoute.tags,
+    path: "/products/{productId}/variants/{variantId}",
     method: "put",
     request: {},
     responses: {
@@ -64,8 +64,8 @@ export default abstract class FolderRoute {
   });
 
   public static remove = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders/{folderId}",
+    tags: ProductVariantRoute.tags,
+    path: "/products/{productId}/variants/{variantId}",
     method: "delete",
     request: {},
     responses: {
