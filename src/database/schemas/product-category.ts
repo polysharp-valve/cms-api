@@ -8,8 +8,10 @@ import { z } from "zod";
 
 import { createId } from "@/helpers/custom-cuid2";
 
-export const categories = pgTable(
-  "categories",
+import { meta } from "./meta";
+
+export const productCategory = pgTable(
+  "product_category",
   {
     id: varchar()
       .$defaultFn(() => createId())
@@ -18,10 +20,9 @@ export const categories = pgTable(
     parentId: varchar(),
     name: varchar().notNull(),
     slug: varchar().notNull(),
-    title: varchar(),
+    title: varchar().notNull(),
     description: text(),
-    metaTitle: varchar(),
-    metaDescription: varchar(),
+    metaId: varchar().references(() => meta.id),
     createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp()
       .defaultNow()
@@ -34,19 +35,20 @@ export const categories = pgTable(
   })
 );
 
-export const categoriesSchema = {
-  insert: createInsertSchema(categories).strict().omit({ id: true }),
-  select: createSelectSchema(categories).strict(),
-  update: createUpdateSchema(categories).strict().pick({
+export const productCategorySchema = {
+  insert: createInsertSchema(productCategory).strict().omit({ id: true }),
+  select: createSelectSchema(productCategory).strict(),
+  update: createUpdateSchema(productCategory).strict().pick({
+    name: true,
+    slug: true,
     title: true,
     description: true,
-    metaTitle: true,
-    metaDescription: true,
+    metaId: true,
   }),
 } as const;
 
-export type Categories = {
-  Insert: z.input<typeof categoriesSchema.insert>;
-  Select: z.output<typeof categoriesSchema.select>;
-  Update: z.input<typeof categoriesSchema.update>;
+export type ProductCategory = {
+  Insert: z.input<typeof productCategorySchema.insert>;
+  Select: z.output<typeof productCategorySchema.select>;
+  Update: z.input<typeof productCategorySchema.update>;
 };
