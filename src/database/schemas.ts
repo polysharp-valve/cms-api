@@ -1,5 +1,5 @@
+import { folder } from "./schemas/folder";
 import { media } from "./schemas/media";
-import { mediaFolder } from "./schemas/media-folder";
 import { meta } from "./schemas/meta";
 import { product } from "./schemas/product";
 import { productCategory } from "./schemas/product-category";
@@ -14,7 +14,7 @@ import { productsCategories } from "./schemas/products-categories";
 import { productsCollections } from "./schemas/products-collections";
 
 export default {
-  mediaFolder,
+  folder,
   media,
   meta,
   productCategory,

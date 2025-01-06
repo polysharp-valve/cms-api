@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import { createId } from "@/helpers/custom-cuid2";
 
-export const mediaFolder = pgTable("media_folder", {
+export const folder = pgTable("folder", {
   id: varchar()
     .$defaultFn(() => createId())
     .primaryKey()
@@ -21,16 +21,16 @@ export const mediaFolder = pgTable("media_folder", {
     .notNull(),
 });
 
-export const mediaFolderSchema = {
-  insert: createInsertSchema(mediaFolder).strict().omit({ id: true }),
-  select: createSelectSchema(mediaFolder).strict(),
-  update: createUpdateSchema(mediaFolder).strict().pick({
+export const folderSchema = {
+  insert: createInsertSchema(folder).strict().omit({ id: true }),
+  select: createSelectSchema(folder).strict(),
+  update: createUpdateSchema(folder).strict().pick({
     name: true,
   }),
 } as const;
 
-export type MediaFolder = {
-  Insert: z.input<typeof mediaFolderSchema.insert>;
-  Select: z.output<typeof mediaFolderSchema.select>;
-  Update: z.input<typeof mediaFolderSchema.update>;
+export type Folder = {
+  Insert: z.input<typeof folderSchema.insert>;
+  Select: z.output<typeof folderSchema.select>;
+  Update: z.input<typeof folderSchema.update>;
 };

@@ -8,6 +8,8 @@ import { z } from "zod";
 
 import { createId } from "@/helpers/custom-cuid2";
 
+import { folder } from "./folder";
+
 export const mediaTypeEnum = pgEnum("media_type", ["image", "video", "pdf"]);
 
 export const media = pgTable("media", {
@@ -15,6 +17,7 @@ export const media = pgTable("media", {
     .$defaultFn(() => createId())
     .primaryKey()
     .unique(),
+  folderId: varchar().references(() => folder.id),
   name: varchar().notNull(),
   type: mediaTypeEnum().notNull(),
   src: varchar().notNull(),
