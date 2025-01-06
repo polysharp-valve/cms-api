@@ -1,7 +1,10 @@
 {
   "name": "cms-api",
   "scripts": {
-    "dev": "NODE_ENV=development bun run --hot src/app.ts"
+    "dev": "NODE_ENV=development bun run --hot src/app.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:drop": "drizzle-kit drop"
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.18.3",
