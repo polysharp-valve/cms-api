@@ -1,4 +1,4 @@
-import { pgTable, varchar } from "drizzle-orm/pg-core";
+import { pgTable, primaryKey, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -8,9 +8,20 @@ import { productVariant } from "./product-variant";
 export const productVariantsOptionValues = pgTable(
   "product_variants_option_values",
   {
-    productVariantId: varchar().references(() => productVariant.id),
-    productOptionValueId: varchar().references(() => productOptionValue.id),
-  }
+    productVariantId: varchar()
+      .references(() => productVariant.id)
+      .notNull(),
+    productOptionValueId: varchar()
+      .references(() => productOptionValue.id)
+      .notNull(),
+  },
+  (table) => [
+    {
+      pk: primaryKey({
+        columns: [table.productVariantId, table.productOptionValueId],
+      }),
+    },
+  ]
 );
 
 export const productVariantsOptionValuesSchema = {

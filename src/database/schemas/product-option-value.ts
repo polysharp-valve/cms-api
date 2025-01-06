@@ -16,7 +16,9 @@ export const productOptionValue = pgTable("product_option_value", {
     .primaryKey()
     .unique(),
   value: varchar().notNull(),
-  productOptionId: varchar().references(() => productOption.id),
+  productOptionId: varchar()
+    .references(() => productOption.id)
+    .notNull(),
   createdAt: timestamp().defaultNow().notNull(),
   updatedAt: timestamp()
     .defaultNow()

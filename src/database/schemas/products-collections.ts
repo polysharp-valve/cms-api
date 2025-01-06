@@ -1,14 +1,28 @@
-import { pgTable, varchar } from "drizzle-orm/pg-core";
+import { pgTable, primaryKey, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { product } from "./product";
 import { productCollection } from "./product-collection";
 
-export const productsCollections = pgTable("products_collections", {
-  productCollectionId: varchar().references(() => productCollection.id),
-  productId: varchar().references(() => product.id),
-});
+export const productsCollections = pgTable(
+  "products_collections",
+  {
+    productCollectionId: varchar()
+      .references(() => productCollection.id)
+      .notNull(),
+    productId: varchar()
+      .references(() => product.id)
+      .notNull(),
+  },
+  (table) => [
+    {
+      pk: primaryKey({
+        columns: [table.productCollectionId, table.productId],
+      }),
+    },
+  ]
+);
 
 export const productsCollectionsSchema = {
   insert: createInsertSchema(productsCollections).strict(),

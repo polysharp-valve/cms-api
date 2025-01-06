@@ -16,9 +16,11 @@ export const productVariant = pgTable("product_variant", {
     .unique(),
   name: varchar().notNull(),
   slug: varchar().notNull(),
-  sku: varchar().notNull(),
-  barcode: varchar().notNull(),
-  productId: varchar().references(() => product.id),
+  sku: varchar(),
+  barcode: varchar(),
+  productId: varchar()
+    .references(() => product.id)
+    .notNull(),
   createdAt: timestamp().defaultNow().notNull(),
   updatedAt: timestamp()
     .defaultNow()

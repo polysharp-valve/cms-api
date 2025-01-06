@@ -14,7 +14,6 @@ export const productTag = pgTable("product_tag", {
     .primaryKey()
     .unique(),
   value: varchar().notNull(),
-  displayValue: varchar().notNull(),
   createdAt: timestamp().defaultNow().notNull(),
   updatedAt: timestamp()
     .defaultNow()
@@ -27,7 +26,6 @@ export const productTagSchema = {
   select: createSelectSchema(productTag).strict(),
   update: createUpdateSchema(productTag).strict().pick({
     value: true,
-    displayValue: true,
   }),
 } as const;
 
