@@ -8,6 +8,7 @@ import loggerMiddleware from "./middlewares/logger.middleware.js";
 import router from "./router.js";
 
 import type { AppBindings } from "./types.js";
+
 const app = new OpenAPIHono<AppBindings>({
   defaultHook,
 });

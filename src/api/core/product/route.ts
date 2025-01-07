@@ -2,18 +2,18 @@ import { jsonContent } from "stoker/openapi/helpers";
 
 import { createRoute, z } from "@hono/zod-openapi";
 
-export type Create = typeof FolderRoute.create;
-export type Find = typeof FolderRoute.find;
-export type FindOne = typeof FolderRoute.findOne;
-export type Update = typeof FolderRoute.update;
-export type Remove = typeof FolderRoute.remove;
+export type Create = typeof ProductRoute.create;
+export type Find = typeof ProductRoute.find;
+export type FindOne = typeof ProductRoute.findOne;
+export type Update = typeof ProductRoute.update;
+export type Remove = typeof ProductRoute.remove;
 
-export default abstract class FolderRoute {
-  private static tags = ["Folder"];
+export default abstract class ProductRoute {
+  private static tags = ["Product"];
 
   public static create = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders",
+    tags: ProductRoute.tags,
+    path: "/products",
     method: "post",
     request: {},
     responses: {
@@ -25,8 +25,8 @@ export default abstract class FolderRoute {
   });
 
   public static find = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders",
+    tags: ProductRoute.tags,
+    path: "/products",
     method: "get",
     request: {},
     responses: {
@@ -38,8 +38,8 @@ export default abstract class FolderRoute {
   });
 
   public static findOne = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders/{folderId}",
+    tags: ProductRoute.tags,
+    path: "/products/{productId}",
     method: "get",
     request: {},
     responses: {
@@ -51,8 +51,8 @@ export default abstract class FolderRoute {
   });
 
   public static update = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders/{folderId}",
+    tags: ProductRoute.tags,
+    path: "/products/{productId}",
     method: "put",
     request: {},
     responses: {
@@ -64,8 +64,8 @@ export default abstract class FolderRoute {
   });
 
   public static remove = createRoute({
-    tags: FolderRoute.tags,
-    path: "/folders/{folderId}",
+    tags: ProductRoute.tags,
+    path: "/products/{productId}",
     method: "delete",
     request: {},
     responses: {
