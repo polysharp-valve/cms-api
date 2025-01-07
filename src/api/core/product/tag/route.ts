@@ -1,7 +1,7 @@
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 
-import { createRoute, z } from "@hono/zod-openapi";
 import { productTagSchema } from "@/database/schemas/product-tag";
+import { createRoute, z } from "@hono/zod-openapi";
 
 export type Create = typeof ProductTagRoute.create;
 export type Find = typeof ProductTagRoute.find;

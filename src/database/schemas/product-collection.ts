@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import { createId } from "@/helpers/custom-cuid2";
 
-import { meta } from "./meta";
+import { media } from "./media";
 
 export const productCollection = pgTable("product_collection", {
   id: varchar()
@@ -19,7 +19,9 @@ export const productCollection = pgTable("product_collection", {
   slug: varchar().notNull(),
   title: varchar().notNull(),
   description: text(),
-  metaId: varchar().references(() => meta.id),
+  metaTitle: varchar(),
+  metaDescription: varchar(),
+  metaMediaId: varchar().references(() => media.id),
   createdAt: timestamp().defaultNow().notNull(),
   updatedAt: timestamp()
     .defaultNow()
@@ -35,7 +37,9 @@ export const productCollectionSchema = {
     slug: true,
     title: true,
     description: true,
-    metaId: true,
+    metaTitle: true,
+    metaDescription: true,
+    metaMediaId: true,
   }),
 } as const;
 

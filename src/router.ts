@@ -4,7 +4,6 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 
 import folderRouter from "./api/core/folder";
 import mediaRouter from "./api/core/media";
-import metaRouter from "./api/core/meta";
 import productRouter from "./api/core/product";
 import productCategoryRouter from "./api/core/product/category";
 import productCollectionRouter from "./api/core/product/collection";
@@ -21,7 +20,6 @@ const router = new OpenAPIHono<AppBindings>({
 
 router.route("/", folderRouter);
 router.route("/", mediaRouter);
-router.route("/", metaRouter);
 router.route("/", productCategoryRouter);
 router.route("/", productCollectionRouter);
 router.route("/", productOptionRouter);

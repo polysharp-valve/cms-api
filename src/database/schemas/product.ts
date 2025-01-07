@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import { createId } from "@/helpers/custom-cuid2";
 
-import { meta } from "./meta";
+import { media } from "./media";
 import { productType } from "./product-type";
 
 export const productStatusEnum = pgEnum("status", [
@@ -24,9 +24,11 @@ export const product = pgTable("product", {
     .unique(),
   name: varchar().notNull(),
   slug: varchar().notNull(),
-  metaId: varchar().references(() => meta.id),
+  metaTitle: varchar(),
+  metaDescription: varchar(),
+  metaMediaId: varchar().references(() => media.id),
   productTypeId: varchar().references(() => productType.id),
-  status: productStatusEnum("draft").notNull(),
+  status: productStatusEnum("draft"),
   createdAt: timestamp().defaultNow().notNull(),
   updatedAt: timestamp()
     .defaultNow()
@@ -35,14 +37,18 @@ export const product = pgTable("product", {
 });
 
 export const productSchema = {
-  insert: createInsertSchema(product).strict().omit({ id: true }),
+  insert: createInsertSchema(product).strict().omit({
+    id: true,
+    status: true,
+  }),
   select: createSelectSchema(product).strict(),
   update: createUpdateSchema(product).strict().pick({
     name: true,
     slug: true,
-    metaId: true,
     productTypeId: true,
-    status: true,
+    metaTitle: true,
+    metaDescription: true,
+    metaMediaId: true,
   }),
 } as const;
 

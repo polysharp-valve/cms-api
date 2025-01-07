@@ -1,6 +1,5 @@
 import { folder } from "./schemas/folder";
 import { media } from "./schemas/media";
-import { meta } from "./schemas/meta";
 import { product } from "./schemas/product";
 import { productCategory } from "./schemas/product-category";
 import { productCollection } from "./schemas/product-collection";
@@ -16,7 +15,6 @@ import { productsCollections } from "./schemas/products-collections";
 export default {
   folder,
   media,
-  meta,
   productCategory,
   productCollection,
   productOptionValue,
