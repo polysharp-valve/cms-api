@@ -21,7 +21,7 @@ export const productsCollections = pgTable(
         columns: [table.productCollectionId, table.productId],
       }),
     },
-  ]
+  ],
 );
 
 export const productsCollectionsSchema = {

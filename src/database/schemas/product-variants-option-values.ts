@@ -21,7 +21,7 @@ export const productVariantsOptionValues = pgTable(
         columns: [table.productVariantId, table.productOptionValueId],
       }),
     },
-  ]
+  ],
 );
 
 export const productVariantsOptionValuesSchema = {

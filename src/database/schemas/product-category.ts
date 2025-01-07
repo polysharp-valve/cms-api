@@ -32,7 +32,7 @@ export const productCategory = pgTable(
   (table) => ({
     slugIdx: index().on(table.slug),
     parentIdIdx: index().on(table.parentId),
-  })
+  }),
 );
 
 export const productCategorySchema = {
