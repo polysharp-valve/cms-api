@@ -1,5 +1,6 @@
-import { jsonContent } from "stoker/openapi/helpers";
+import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 
+import { folderSchema } from "@/database/schemas/folder";
 import { createRoute, z } from "@hono/zod-openapi";
 
 export type Create = typeof FolderRoute.create;
@@ -15,12 +16,15 @@ export default abstract class FolderRoute {
     tags: FolderRoute.tags,
     path: "/folders",
     method: "post",
-    request: {},
-    responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+    request: {
+      body: jsonContentRequired(
+        z.object({ name: z.string().min(1) }).strict(),
+        "Folder creation payload",
       ),
+    },
+    responses: {
+      201: jsonContent(folderSchema.select, "Create folder"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 
@@ -30,10 +34,8 @@ export default abstract class FolderRoute {
     method: "get",
     request: {},
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
-      ),
+      200: jsonContent(z.array(folderSchema.select), "Find folders"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 
@@ -41,12 +43,13 @@ export default abstract class FolderRoute {
     tags: FolderRoute.tags,
     path: "/folders/{folderId}",
     method: "get",
-    request: {},
+    request: {
+      params: z.object({ folderId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
-      ),
+      200: jsonContent(folderSchema.select, "Find folder by id"),
+      404: jsonContent({ message: "Folder not found" }, "Folder not found"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 
@@ -54,12 +57,17 @@ export default abstract class FolderRoute {
     tags: FolderRoute.tags,
     path: "/folders/{folderId}",
     method: "put",
-    request: {},
-    responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+    request: {
+      params: z.object({ folderId: z.string().min(12).max(12) }).strict(),
+      body: jsonContent(
+        z.object({ name: z.string().min(1) }).strict(),
+        "Folder creation payload",
       ),
+    },
+    responses: {
+      200: jsonContent(folderSchema.select, "Update folder by id"),
+      404: jsonContent({ message: "Folder not found" }, "Folder not found"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 
@@ -67,12 +75,13 @@ export default abstract class FolderRoute {
     tags: FolderRoute.tags,
     path: "/folders/{folderId}",
     method: "delete",
-    request: {},
+    request: {
+      params: z.object({ folderId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
-      ),
+      200: jsonContent(folderSchema.select, "Delete folder by id"),
+      404: jsonContent({ message: "Folder not found" }, "Folder not found"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 }

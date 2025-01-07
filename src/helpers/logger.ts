@@ -56,19 +56,31 @@ export class Logger {
     this.logger = pino(pinoOptions, pino.multistream(streams));
   }
 
-  public info(message: string, payload: Record<string, any> = {}): void {
+  public info(
+    message: string,
+    payload: Record<string, any> | unknown = {},
+  ): void {
     this.logger.info(payload, message);
   }
 
-  public warn(message: string, payload: Record<string, any> = {}): void {
+  public warn(
+    message: string,
+    payload: Record<string, any> | unknown = {},
+  ): void {
     this.logger.warn(payload, message);
   }
 
-  public error(message: string, payload: Record<string, any> = {}): void {
+  public error(
+    message: string,
+    payload: Record<string, any> | unknown = {},
+  ): void {
     this.logger.error(payload, message);
   }
 
-  public fatal(message: string, payload: Record<string, any> = {}): void {
+  public fatal(
+    message: string,
+    payload: Record<string, any> | unknown = {},
+  ): void {
     this.logger.fatal(payload, message);
   }
 }
