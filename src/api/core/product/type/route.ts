@@ -24,7 +24,10 @@ export default abstract class ProductTypeRoute {
     },
     responses: {
       201: jsonContent(productTypeSchema.select, "Create product type"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -35,7 +38,10 @@ export default abstract class ProductTypeRoute {
     request: {},
     responses: {
       200: jsonContent(z.array(productTypeSchema.select), "Find product types"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -48,7 +54,14 @@ export default abstract class ProductTypeRoute {
     },
     responses: {
       200: jsonContent(productTypeSchema.select, "Find product type by id"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      404: jsonContent(
+        { status: 404, message: "Product type not found" },
+        "Product type not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -65,7 +78,14 @@ export default abstract class ProductTypeRoute {
     },
     responses: {
       200: jsonContent(productTypeSchema.select, "Update product type by id"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      404: jsonContent(
+        { status: 404, message: "Product type not found" },
+        "Product type not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -78,7 +98,14 @@ export default abstract class ProductTypeRoute {
     },
     responses: {
       200: jsonContent(productTypeSchema.select, "Delete product type by id"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      404: jsonContent(
+        { status: 404, message: "Product type not found" },
+        "Product type not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 }

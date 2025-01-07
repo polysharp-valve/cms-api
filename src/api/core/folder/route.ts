@@ -24,7 +24,10 @@ export default abstract class FolderRoute {
     },
     responses: {
       201: jsonContent(folderSchema.select, "Create folder"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -35,7 +38,10 @@ export default abstract class FolderRoute {
     request: {},
     responses: {
       200: jsonContent(z.array(folderSchema.select), "Find folders"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -48,8 +54,14 @@ export default abstract class FolderRoute {
     },
     responses: {
       200: jsonContent(folderSchema.select, "Find folder by id"),
-      404: jsonContent({ message: "Folder not found" }, "Folder not found"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      404: jsonContent(
+        { status: 404, message: "Folder not found" },
+        "Folder not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -66,8 +78,14 @@ export default abstract class FolderRoute {
     },
     responses: {
       200: jsonContent(folderSchema.select, "Update folder by id"),
-      404: jsonContent({ message: "Folder not found" }, "Folder not found"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      404: jsonContent(
+        { status: 404, message: "Folder not found" },
+        "Folder not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -80,8 +98,14 @@ export default abstract class FolderRoute {
     },
     responses: {
       200: jsonContent(folderSchema.select, "Delete folder by id"),
-      404: jsonContent({ message: "Folder not found" }, "Folder not found"),
-      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
+      404: jsonContent(
+        { status: 404, message: "Folder not found" },
+        "Folder not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 }
