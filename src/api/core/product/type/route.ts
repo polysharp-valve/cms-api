@@ -1,5 +1,6 @@
-import { jsonContent } from "stoker/openapi/helpers";
+import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 
+import { productTypeSchema } from "@/database/schemas/product-type";
 import { createRoute, z } from "@hono/zod-openapi";
 
 export type Create = typeof ProductTypeRoute.create;
@@ -15,12 +16,15 @@ export default abstract class ProductTypeRoute {
     tags: ProductTypeRoute.tags,
     path: "/product-types",
     method: "post",
-    request: {},
-    responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+    request: {
+      body: jsonContentRequired(
+        productTypeSchema.insert,
+        "Product type creation payload",
       ),
+    },
+    responses: {
+      201: jsonContent(productTypeSchema.select, "Create product type"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 
@@ -30,10 +34,8 @@ export default abstract class ProductTypeRoute {
     method: "get",
     request: {},
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
-      ),
+      200: jsonContent(z.array(productTypeSchema.select), "Find product types"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 
@@ -41,12 +43,12 @@ export default abstract class ProductTypeRoute {
     tags: ProductTypeRoute.tags,
     path: "/product-types/{typeId}",
     method: "get",
-    request: {},
+    request: {
+      params: z.object({ typeId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
-      ),
+      200: jsonContent(productTypeSchema.select, "Find product type by id"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 
@@ -54,12 +56,16 @@ export default abstract class ProductTypeRoute {
     tags: ProductTypeRoute.tags,
     path: "/product-types/{typeId}",
     method: "put",
-    request: {},
-    responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+    request: {
+      params: z.object({ typeId: z.string().min(12).max(12) }).strict(),
+      body: jsonContent(
+        productTypeSchema.update,
+        "Product type update payload",
       ),
+    },
+    responses: {
+      200: jsonContent(productTypeSchema.select, "Update product type by id"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 
@@ -67,12 +73,12 @@ export default abstract class ProductTypeRoute {
     tags: ProductTypeRoute.tags,
     path: "/product-types/{typeId}",
     method: "delete",
-    request: {},
+    request: {
+      params: z.object({ typeId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
-      ),
+      200: jsonContent(productTypeSchema.select, "Delete product type by id"),
+      500: jsonContent({ message: "Unexpected error" }, "Unexpected error"),
     },
   });
 }
