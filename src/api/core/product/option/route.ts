@@ -1,8 +1,8 @@
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 
 import { productOptionSchema } from "@/database/schemas/product-option";
-import { createRoute, z } from "@hono/zod-openapi";
 import { productOptionValueSchema } from "@/database/schemas/product-option-value";
+import { createRoute, z } from "@hono/zod-openapi";
 
 export type Create = typeof ProductOptionRoute.create;
 export type CreateValues = typeof ProductOptionRoute.createValues;
