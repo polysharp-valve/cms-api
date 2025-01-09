@@ -1,4 +1,5 @@
 import { Context } from "hono";
+import { cors } from "hono/cors";
 import { ContentfulStatusCode } from "hono/utils/http-status.js";
 import { notFound, onError } from "stoker/middlewares";
 import { defaultHook } from "stoker/openapi";
@@ -17,6 +18,8 @@ const app = new OpenAPIHono<AppBindings>({
 });
 
 app.use(loggerMiddleware());
+
+app.use("/*", cors());
 
 app.notFound(notFound);
 app.onError(onError);
