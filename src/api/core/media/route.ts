@@ -15,12 +15,20 @@ export default abstract class MediaRoute {
     tags: MediaRoute.tags,
     path: "/medias",
     method: "post",
-    request: {},
+    request: {
+      body: {
+        content: {
+          "multipart/form-data": {
+            schema: z.object({
+              file: z.instanceof(File),
+              folderId: z.string().min(12).max(12).optional(),
+            }),
+          },
+        },
+      },
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
-      ),
+      201: jsonContent(z.object({ url: z.string() }), "Create media"),
     },
   });
 
