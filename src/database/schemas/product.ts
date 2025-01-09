@@ -28,7 +28,7 @@ export const product = pgTable("product", {
   metaDescription: varchar(),
   metaMediaId: varchar().references(() => media.id),
   productTypeId: varchar().references(() => productType.id),
-  status: productStatusEnum("draft"),
+  status: productStatusEnum("draft").default("draft").notNull(),
   createdAt: timestamp().defaultNow().notNull(),
   updatedAt: timestamp()
     .defaultNow()

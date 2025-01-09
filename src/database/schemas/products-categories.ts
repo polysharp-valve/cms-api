@@ -15,13 +15,11 @@ export const productsCategories = pgTable(
       .references(() => product.id)
       .notNull(),
   },
-  (table) => [
-    {
-      pk: primaryKey({
-        columns: [table.productCategoryId, table.productId],
-      }),
-    },
-  ],
+  (table) => ({
+    pk: primaryKey({
+      columns: [table.productCategoryId, table.productId],
+    }),
+  }),
 );
 
 export const productsCategoriesSchema = {
