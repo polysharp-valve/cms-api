@@ -1,5 +1,5 @@
 export interface BlobStorageAdapter {
-  upload(file: Buffer, path: string): Promise<string>;
+  upload(file: Buffer): Promise<string>;
   delete(path: string): Promise<void>;
   getUrl(path: string): string;
 }
@@ -11,8 +11,8 @@ export class BlobStorage {
     this.adapter = adapter;
   }
 
-  async upload(file: Buffer, path: string): Promise<any> {
-    return this.adapter.upload(file, path);
+  async upload(file: Buffer): Promise<string> {
+    return this.adapter.upload(file);
   }
 
   async delete(path: string): Promise<void> {

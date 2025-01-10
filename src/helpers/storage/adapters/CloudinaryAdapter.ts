@@ -15,10 +15,13 @@ export class CloudinaryAdapter implements BlobStorageAdapter {
     });
   }
 
-  async upload(file: Buffer, path: string): Promise<string> {
-    return new Promise((resolve) => {
+  async upload(file: Buffer): Promise<string> {
+    return new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream((error, uploadResult) => {
+          if (error) {
+            return reject(error);
+          }
           return resolve(uploadResult?.secure_url || "");
         })
         .end(file);
