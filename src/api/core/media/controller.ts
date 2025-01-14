@@ -3,6 +3,7 @@ import { AppRouteHandler } from "@/types";
 import { Create, Find, FindOne, Remove, Update } from "./route";
 import MediaService from "./service";
 import FolderService from "../folder/service";
+import { InternalServerError, NotFound } from "@/helpers/HttpError";
 
 export default abstract class MediaController {
   public static create: AppRouteHandler<Create> = async (c) => {
@@ -30,13 +31,13 @@ export default abstract class MediaController {
       const folderExists = await FolderService.findOne(folderId);
 
       if (!folderExists) {
-        return c.json({ message: "Folder not found" }, 404);
+        throw new NotFound("Folder not found");
       }
     }
 
     const fileUploaded = await MediaService.uploadMedia(file);
     if (!fileUploaded) {
-      return c.json({ message: "File not uploaded" }, 500);
+      throw new InternalServerError("Media not uploaded");
     }
 
     const mediaCreated = await MediaService.create({
@@ -46,7 +47,7 @@ export default abstract class MediaController {
       folderId,
     });
     if (!mediaCreated) {
-      return c.json({ message: "Media not created" }, 500);
+      throw new InternalServerError("Media not created");
     }
 
     return c.json(mediaCreated, 201);
@@ -56,6 +57,7 @@ export default abstract class MediaController {
     const folderId = c.req.valid("query").folderId;
 
     const res = await MediaService.find(folderId);
+
     return c.json(res, 200);
   };
 
@@ -64,7 +66,7 @@ export default abstract class MediaController {
 
     const res = await MediaService.findOne(mediaId);
     if (!res) {
-      return c.json({ message: "Media not found" }, 404);
+      throw new NotFound("Media not found");
     }
 
     return c.json(res, 200);
@@ -76,7 +78,7 @@ export default abstract class MediaController {
 
     const res = await MediaService.update(mediaId, data);
     if (!res) {
-      return c.json({ message: "Media not found" }, 404);
+      throw new NotFound("Media not found");
     }
 
     return c.json(res, 200);
@@ -87,7 +89,7 @@ export default abstract class MediaController {
 
     const res = await MediaService.remove(mediaId);
     if (!res) {
-      return c.json({ message: "Media not found" }, 404);
+      throw new NotFound("Media not found");
     }
 
     return c.json(res, 200);

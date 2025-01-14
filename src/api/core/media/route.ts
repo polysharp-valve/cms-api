@@ -30,8 +30,14 @@ export default abstract class MediaRoute {
     },
     responses: {
       201: jsonContent(mediaSchema.select, "Create media"),
-      404: jsonContent(z.object({ message: z.string() }), "Folder not found"),
-      500: jsonContent(z.object({ message: z.string() }), "File not uploaded"),
+      404: jsonContent(
+        { status: 404, message: "Folder not found" },
+        "Folder not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -46,7 +52,10 @@ export default abstract class MediaRoute {
     },
     responses: {
       200: jsonContent(mediaSchema.select.array(), "Find medias"),
-      500: jsonContent(z.object({ message: z.string() }), "Unexpected error"),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -59,8 +68,14 @@ export default abstract class MediaRoute {
     },
     responses: {
       200: jsonContent(mediaSchema.select, "Find media by id"),
-      404: jsonContent(z.object({ message: z.string() }), "Media not found"),
-      500: jsonContent(z.object({ message: z.string() }), "Unexpected error"),
+      404: jsonContent(
+        { status: 404, message: "Media not found" },
+        "Media not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -74,8 +89,14 @@ export default abstract class MediaRoute {
     },
     responses: {
       200: jsonContent(mediaSchema.select, "Update media"),
-      404: jsonContent(z.object({ message: z.string() }), "Media not found"),
-      500: jsonContent(z.object({ message: z.string() }), "Unexpected error"),
+      404: jsonContent(
+        { status: 404, message: "Media not found" },
+        "Media not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 
@@ -88,8 +109,14 @@ export default abstract class MediaRoute {
     },
     responses: {
       200: jsonContent(mediaSchema.select, "Remove media"),
-      404: jsonContent(z.object({ message: z.string() }), "Media not found"),
-      500: jsonContent(z.object({ message: z.string() }), "Unexpected error"),
+      404: jsonContent(
+        { status: 404, message: "Media not found" },
+        "Media not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
+      ),
     },
   });
 }

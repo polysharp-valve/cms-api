@@ -1,5 +1,6 @@
-import { jsonContent } from "stoker/openapi/helpers";
+import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 
+import { productCategorySchema } from "@/database/schemas/product-category";
 import { createRoute, z } from "@hono/zod-openapi";
 
 export type Create = typeof ProductCategoryRoute.create;
@@ -15,11 +16,17 @@ export default abstract class ProductCategoryRoute {
     tags: ProductCategoryRoute.tags,
     path: "/product-categories",
     method: "post",
-    request: {},
+    request: {
+      body: jsonContentRequired(
+        productCategorySchema.insert,
+        "Product category creation payload",
+      ),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      201: jsonContent(productCategorySchema.select, "Create product category"),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -28,11 +35,19 @@ export default abstract class ProductCategoryRoute {
     tags: ProductCategoryRoute.tags,
     path: "/product-categories",
     method: "get",
-    request: {},
+    request: {
+      query: z.object({
+        parentId: z.string().optional(),
+      }),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(
+        productCategorySchema.select.array(),
+        "Find product categories",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -41,11 +56,21 @@ export default abstract class ProductCategoryRoute {
     tags: ProductCategoryRoute.tags,
     path: "/product-categories/{categoryId}",
     method: "get",
-    request: {},
+    request: {
+      params: z.object({ categoryId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(
+        productCategorySchema.select,
+        "Find product category by id",
+      ),
+      404: jsonContent(
+        { status: 404, message: "Product category not found" },
+        "Product category not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -54,11 +79,25 @@ export default abstract class ProductCategoryRoute {
     tags: ProductCategoryRoute.tags,
     path: "/product-categories/{categoryId}",
     method: "put",
-    request: {},
+    request: {
+      params: z.object({ categoryId: z.string().min(12).max(12) }).strict(),
+      body: jsonContent(
+        productCategorySchema.update,
+        "Product category update payload",
+      ),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(
+        productCategorySchema.select,
+        "Update product category by id",
+      ),
+      404: jsonContent(
+        { status: 404, message: "Product category not found" },
+        "Product category not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -67,11 +106,18 @@ export default abstract class ProductCategoryRoute {
     tags: ProductCategoryRoute.tags,
     path: "/product-categories/{categoryId}",
     method: "delete",
-    request: {},
+    request: {
+      params: z.object({ categoryId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(productCategorySchema.select, "Remove product category"),
+      404: jsonContent(
+        { status: 404, message: "Product category not found" },
+        "Product category not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });

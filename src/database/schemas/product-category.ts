@@ -38,16 +38,16 @@ export const productCategory = pgTable(
 );
 
 export const productCategorySchema = {
-  insert: createInsertSchema(productCategory).strict().omit({ id: true }),
+  insert: createInsertSchema(productCategory)
+    .strict()
+    .omit({ id: true, slug: true }),
   select: createSelectSchema(productCategory).strict(),
-  update: createUpdateSchema(productCategory).strict().pick({
-    name: true,
+  update: createUpdateSchema(productCategory).strict().omit({
+    id: true,
+    parentId: true,
     slug: true,
-    title: true,
-    description: true,
-    metaTitle: true,
-    metaDescription: true,
-    metaMediaId: true,
+    createdAt: true,
+    updatedAt: true,
   }),
 } as const;
 
