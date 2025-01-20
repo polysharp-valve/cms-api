@@ -11,6 +11,7 @@ import { createId } from "@/helpers/custom-cuid2";
 
 import { product } from "./product";
 import { productOptionValue } from "./product-option-value";
+import { productVariant } from "./product-variant";
 
 export const productOption = pgTable(
   "product_option",
@@ -36,6 +37,7 @@ export const productOption = pgTable(
 
 export const productOptionRelations = relations(productOption, ({ many }) => ({
   values: many(productOptionValue),
+  productVariants: many(productVariant),
 }));
 
 export const productOptionSchema = {

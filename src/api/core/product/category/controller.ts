@@ -8,6 +8,14 @@ export default abstract class ProductCategoryController {
   public static create: AppRouteHandler<Create> = async (c) => {
     const data = c.req.valid("json");
 
+    if (data.parentId) {
+      const parentExists = await ProductCategoryService.findOne(data.parentId);
+
+      if (!parentExists) {
+        throw new NotFound("Parent Category not found");
+      }
+    }
+
     const res = await ProductCategoryService.create(data);
     if (!res) {
       throw new InternalServerError("Product Category not created");

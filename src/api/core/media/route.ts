@@ -1,7 +1,7 @@
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 
-import { createRoute, z } from "@hono/zod-openapi";
 import { mediaSchema } from "@/database/schemas/media";
+import { createRoute, z } from "@hono/zod-openapi";
 
 export type Create = typeof MediaRoute.create;
 export type Find = typeof MediaRoute.find;

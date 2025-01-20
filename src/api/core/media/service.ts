@@ -1,7 +1,8 @@
+import { eq } from "drizzle-orm";
+
 import db from "@/database/database";
 import { media, Media } from "@/database/schemas/media";
 import { blobStorage } from "@/helpers/storage";
-import { eq } from "drizzle-orm";
 
 export default abstract class MediaService {
   public static async create(data: Media["Insert"]) {

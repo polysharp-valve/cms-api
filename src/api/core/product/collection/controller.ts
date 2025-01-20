@@ -1,8 +1,8 @@
+import { InternalServerError, NotFound } from "@/helpers/HttpError";
 import { AppRouteHandler } from "@/types";
 
 import { Create, Find, FindOne, Remove, Update } from "./route";
 import ProductCollectionService from "./service";
-import { InternalServerError, NotFound } from "@/helpers/HttpError";
 
 export default abstract class ProductCollectionController {
   public static create: AppRouteHandler<Create> = async (c) => {

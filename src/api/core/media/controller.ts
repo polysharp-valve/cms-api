@@ -1,9 +1,9 @@
+import { InternalServerError, NotFound } from "@/helpers/HttpError";
 import { AppRouteHandler } from "@/types";
 
+import FolderService from "../folder/service";
 import { Create, Find, FindOne, Remove, Update } from "./route";
 import MediaService from "./service";
-import FolderService from "../folder/service";
-import { InternalServerError, NotFound } from "@/helpers/HttpError";
 
 export default abstract class MediaController {
   public static create: AppRouteHandler<Create> = async (c) => {
