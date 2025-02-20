@@ -11,9 +11,21 @@ const router = new OpenAPIHono<AppBindings>({
 });
 
 router.openapi(ProductOptionRoute.create, ProductOptionController.create);
+router.openapi(
+  ProductOptionRoute.createValues,
+  ProductOptionController.createValues,
+);
 router.openapi(ProductOptionRoute.find, ProductOptionController.find);
 router.openapi(ProductOptionRoute.findOne, ProductOptionController.findOne);
 router.openapi(ProductOptionRoute.update, ProductOptionController.update);
+router.openapi(
+  ProductOptionRoute.updateValue,
+  ProductOptionController.updateValue,
+);
 router.openapi(ProductOptionRoute.remove, ProductOptionController.remove);
+router.openapi(
+  ProductOptionRoute.removeValue,
+  ProductOptionController.removeValue,
+);
 
 export default router;

@@ -7,6 +7,7 @@ import {
 import { z } from "zod";
 
 import { createId } from "@/helpers/custom-cuid2";
+
 import { product } from "./product";
 
 export const productVariant = pgTable("product_variant", {

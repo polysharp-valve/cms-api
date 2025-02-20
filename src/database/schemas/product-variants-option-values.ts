@@ -15,13 +15,11 @@ export const productVariantsOptionValues = pgTable(
       .references(() => productOptionValue.id)
       .notNull(),
   },
-  (table) => [
-    {
-      pk: primaryKey({
-        columns: [table.productVariantId, table.productOptionValueId],
-      }),
-    },
-  ],
+  (table) => ({
+    pk: primaryKey({
+      columns: [table.productVariantId, table.productOptionValueId],
+    }),
+  }),
 );
 
 export const productVariantsOptionValuesSchema = {

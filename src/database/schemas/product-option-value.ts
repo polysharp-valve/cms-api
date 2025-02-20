@@ -1,4 +1,5 @@
-import { pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { pgTable, timestamp, unique, varchar } from "drizzle-orm/pg-core";
 import {
   createInsertSchema,
   createSelectSchema,
@@ -10,21 +11,40 @@ import { createId } from "@/helpers/custom-cuid2";
 
 import { productOption } from "./product-option";
 
-export const productOptionValue = pgTable("product_option_value", {
-  id: varchar()
-    .$defaultFn(() => createId())
-    .primaryKey()
-    .unique(),
-  value: varchar().notNull(),
-  productOptionId: varchar()
-    .references(() => productOption.id)
-    .notNull(),
-  createdAt: timestamp().defaultNow().notNull(),
-  updatedAt: timestamp()
-    .defaultNow()
-    .$onUpdate(() => new Date())
-    .notNull(),
-});
+export const productOptionValue = pgTable(
+  "product_option_value",
+  {
+    id: varchar()
+      .$defaultFn(() => createId())
+      .primaryKey()
+      .unique(),
+    value: varchar().notNull(),
+    productOptionId: varchar()
+      .references(() => productOption.id)
+      .notNull(),
+    createdAt: timestamp().defaultNow().notNull(),
+    updatedAt: timestamp()
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => ({
+    valueProductOptionIdUniqueIdx: unique().on(
+      table.value,
+      table.productOptionId,
+    ),
+  }),
+);
+
+export const productOptionValueRelations = relations(
+  productOptionValue,
+  ({ one }) => ({
+    option: one(productOption, {
+      fields: [productOptionValue.productOptionId],
+      references: [productOption.id],
+    }),
+  }),
+);
 
 export const productOptionValueSchema = {
   insert: createInsertSchema(productOptionValue).strict().omit({ id: true }),
