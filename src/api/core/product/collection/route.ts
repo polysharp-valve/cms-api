@@ -1,5 +1,6 @@
-import { jsonContent } from "stoker/openapi/helpers";
+import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 
+import { productCollectionSchema } from "@/database/schemas/product-collection";
 import { createRoute, z } from "@hono/zod-openapi";
 
 export type Create = typeof ProductCollectionRoute.create;
@@ -15,11 +16,20 @@ export default abstract class ProductCollectionRoute {
     tags: ProductCollectionRoute.tags,
     path: "/product-collections",
     method: "post",
-    request: {},
+    request: {
+      body: jsonContentRequired(
+        productCollectionSchema.insert,
+        "Product collection creation payload",
+      ),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      201: jsonContent(
+        productCollectionSchema.select,
+        "Create product collection",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -30,9 +40,13 @@ export default abstract class ProductCollectionRoute {
     method: "get",
     request: {},
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(
+        productCollectionSchema.select.array(),
+        "Find product collections",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -41,11 +55,21 @@ export default abstract class ProductCollectionRoute {
     tags: ProductCollectionRoute.tags,
     path: "/product-collections/{collectionId}",
     method: "get",
-    request: {},
+    request: {
+      params: z.object({ collectionId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(
+        productCollectionSchema.select,
+        "Find product collection",
+      ),
+      404: jsonContent(
+        { status: 404, message: "Product collection not found" },
+        "Product collection not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -54,11 +78,25 @@ export default abstract class ProductCollectionRoute {
     tags: ProductCollectionRoute.tags,
     path: "/product-collections/{collectionId}",
     method: "put",
-    request: {},
+    request: {
+      params: z.object({ collectionId: z.string().min(12).max(12) }).strict(),
+      body: jsonContentRequired(
+        productCollectionSchema.update,
+        "Product collection update payload",
+      ),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(
+        productCollectionSchema.select,
+        "Update product collection by id",
+      ),
+      404: jsonContent(
+        { status: 404, message: "Product collection not found" },
+        "Product collection not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -67,11 +105,21 @@ export default abstract class ProductCollectionRoute {
     tags: ProductCollectionRoute.tags,
     path: "/product-collections/{collectionId}",
     method: "delete",
-    request: {},
+    request: {
+      params: z.object({ collectionId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(
+        productCollectionSchema.select,
+        "Remove product collection by id",
+      ),
+      404: jsonContent(
+        { status: 404, message: "Product collection not found" },
+        "Product collection not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });

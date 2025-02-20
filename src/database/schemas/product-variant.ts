@@ -9,6 +9,8 @@ import { z } from "zod";
 import { createId } from "@/helpers/custom-cuid2";
 
 import { product } from "./product";
+import { relations } from "drizzle-orm";
+import { productVariantsOptionValues } from "./product-variants-option-values";
 
 export const productVariant = pgTable("product_variant", {
   id: varchar()
@@ -29,12 +31,22 @@ export const productVariant = pgTable("product_variant", {
     .notNull(),
 });
 
+export const productVariantRelations = relations(
+  productVariant,
+  ({ many }) => ({
+    productOptionValues: many(productVariantsOptionValues),
+  }),
+);
+
 export const productVariantSchema = {
-  insert: createInsertSchema(productVariant).strict().omit({ id: true }),
+  insert: createInsertSchema(productVariant).strict().pick({
+    name: true,
+    sku: true,
+    barcode: true,
+  }),
   select: createSelectSchema(productVariant).strict(),
   update: createUpdateSchema(productVariant).strict().pick({
     name: true,
-    slug: true,
     sku: true,
     barcode: true,
   }),

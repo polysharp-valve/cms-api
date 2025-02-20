@@ -10,6 +10,7 @@
     "@hono/zod-openapi": "^0.18.3",
     "@paralleldrive/cuid2": "^2.2.2",
     "@scalar/hono-api-reference": "^0.5.165",
+    "cloudinary": "^2.5.1",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.3",
     "drizzle-zod": "^0.6.1",

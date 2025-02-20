@@ -1,5 +1,6 @@
-import { jsonContent } from "stoker/openapi/helpers";
+import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 
+import { mediaSchema } from "@/database/schemas/media";
 import { createRoute, z } from "@hono/zod-openapi";
 
 export type Create = typeof MediaRoute.create;
@@ -15,11 +16,27 @@ export default abstract class MediaRoute {
     tags: MediaRoute.tags,
     path: "/medias",
     method: "post",
-    request: {},
+    request: {
+      body: {
+        content: {
+          "multipart/form-data": {
+            schema: z.object({
+              file: z.instanceof(File),
+              folderId: z.string().min(12).max(12).optional(),
+            }),
+          },
+        },
+      },
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      201: jsonContent(mediaSchema.select, "Create media"),
+      404: jsonContent(
+        { status: 404, message: "Folder not found" },
+        "Folder not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -28,11 +45,16 @@ export default abstract class MediaRoute {
     tags: MediaRoute.tags,
     path: "/medias",
     method: "get",
-    request: {},
+    request: {
+      query: z.object({
+        folderId: z.string().min(12).max(12).optional(),
+      }),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(mediaSchema.select.array(), "Find medias"),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -41,11 +63,18 @@ export default abstract class MediaRoute {
     tags: MediaRoute.tags,
     path: "/medias/{mediaId}",
     method: "get",
-    request: {},
+    request: {
+      params: z.object({ mediaId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(mediaSchema.select, "Find media by id"),
+      404: jsonContent(
+        { status: 404, message: "Media not found" },
+        "Media not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -54,11 +83,19 @@ export default abstract class MediaRoute {
     tags: MediaRoute.tags,
     path: "/medias/{mediaId}",
     method: "put",
-    request: {},
+    request: {
+      body: jsonContentRequired(mediaSchema.update, "Media update payload"),
+      params: z.object({ mediaId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(mediaSchema.select, "Update media"),
+      404: jsonContent(
+        { status: 404, message: "Media not found" },
+        "Media not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });
@@ -67,11 +104,18 @@ export default abstract class MediaRoute {
     tags: MediaRoute.tags,
     path: "/medias/{mediaId}",
     method: "delete",
-    request: {},
+    request: {
+      params: z.object({ mediaId: z.string().min(12).max(12) }).strict(),
+    },
     responses: {
-      501: jsonContent(
-        z.object({ message: z.string() }),
-        "Not Implemented... Yet...",
+      200: jsonContent(mediaSchema.select, "Remove media"),
+      404: jsonContent(
+        { status: 404, message: "Media not found" },
+        "Media not found",
+      ),
+      500: jsonContent(
+        { status: 500, message: "Unexpected error" },
+        "Unexpected error",
       ),
     },
   });

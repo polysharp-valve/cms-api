@@ -11,6 +11,9 @@ const configSchema = z.object({
     .default("3000"),
   DATABASE_URL: z.string().url("DATABASE_URL must be a valid URL"),
   NODE_ENV: z.enum(["development", "production", "test"]),
+  CLOUDINARY_CLOUD_NAME: z.string().min(1),
+  CLOUDINARY_API_KEY: z.string().min(1),
+  CLOUDINARY_API_SECRET: z.string().min(1),
 });
 
 const parseConfig = (env = Bun.env): Config => {

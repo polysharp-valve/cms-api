@@ -30,11 +30,12 @@ export const productCollection = pgTable("product_collection", {
 });
 
 export const productCollectionSchema = {
-  insert: createInsertSchema(productCollection).strict().omit({ id: true }),
+  insert: createInsertSchema(productCollection)
+    .strict()
+    .omit({ id: true, slug: true }),
   select: createSelectSchema(productCollection).strict(),
   update: createUpdateSchema(productCollection).strict().pick({
     name: true,
-    slug: true,
     title: true,
     description: true,
     metaTitle: true,

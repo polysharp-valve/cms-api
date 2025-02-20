@@ -1,14 +1,31 @@
+import { validateEntities } from "@/database/helpers/exists";
 import { InternalServerError, NotFound } from "@/helpers/HttpError";
 import { AppRouteHandler } from "@/types";
 
+import ProductCategoryService from "./category/service";
+import ProductCollectionService from "./collection/service";
 import { Create, Find, FindOne, Remove, Update } from "./route";
 import ProductService from "./service";
+import ProductTagService from "./tag/service";
 
 export default abstract class ProductController {
   public static create: AppRouteHandler<Create> = async (c) => {
-    const data = c.req.valid("json");
+    const { categoryIds, collectionIds, tagIds, ...data } = c.req.valid("json");
 
-    const res = await ProductService.create(data);
+    await validateEntities(categoryIds, ProductCategoryService, "categories");
+    await validateEntities(
+      collectionIds,
+      ProductCollectionService,
+      "collections",
+    );
+    await validateEntities(tagIds, ProductTagService, "tags");
+
+    const res = await ProductService.create(
+      data,
+      categoryIds,
+      collectionIds,
+      tagIds,
+    );
 
     if (!res) {
       throw new InternalServerError("Product not created");
@@ -36,8 +53,23 @@ export default abstract class ProductController {
 
   public static update: AppRouteHandler<Update> = async (c) => {
     const { productId } = c.req.valid("param");
-    const data = c.req.valid("json");
-    const res = await ProductService.update(productId, data);
+    const { categoryIds, collectionIds, tagIds, ...data } = c.req.valid("json");
+
+    await validateEntities(categoryIds, ProductCategoryService, "categories");
+    await validateEntities(
+      collectionIds,
+      ProductCollectionService,
+      "collections",
+    );
+    await validateEntities(tagIds, ProductTagService, "tags");
+
+    const res = await ProductService.update(
+      productId,
+      data,
+      categoryIds,
+      collectionIds,
+      tagIds,
+    );
 
     if (!res) {
       throw new NotFound("Product not found");

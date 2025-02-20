@@ -10,7 +10,7 @@ import { createId } from "@/helpers/custom-cuid2";
 
 import { folder } from "./folder";
 
-export const mediaTypeEnum = pgEnum("media_type", ["image", "video", "pdf"]);
+export const mediaTypeEnum = pgEnum("media_type", ["image", "video", "file"]);
 
 export const media = pgTable("media", {
   id: varchar()

@@ -17,7 +17,14 @@ export default abstract class ProductRoute {
     path: "/products",
     method: "post",
     request: {
-      body: jsonContent(productSchema.insert, "Product creation payload"),
+      body: jsonContent(
+        productSchema.insert.extend({
+          categoryIds: z.array(z.string().min(12).max(12)).optional(),
+          collectionIds: z.array(z.string().min(12).max(12)).optional(),
+          tagIds: z.array(z.string().min(12).max(12)).optional(),
+        }),
+        "Product creation payload",
+      ),
     },
     responses: {
       201: jsonContent(productSchema.select, "Create product"),
@@ -68,7 +75,14 @@ export default abstract class ProductRoute {
     method: "put",
     request: {
       params: z.object({ productId: z.string().min(12).max(12) }).strict(),
-      body: jsonContent(productSchema.update, "Product update payload"),
+      body: jsonContent(
+        productSchema.update.extend({
+          categoryIds: z.array(z.string().min(12).max(12)).optional(),
+          collectionIds: z.array(z.string().min(12).max(12)).optional(),
+          tagIds: z.array(z.string().min(12).max(12)).optional(),
+        }),
+        "Product update payload",
+      ),
     },
     responses: {
       200: jsonContent(productSchema.select, "Update product"),
